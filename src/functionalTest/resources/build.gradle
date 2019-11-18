@@ -1,0 +1,11 @@
+plugins {
+    id 'org.example.greeting'
+}
+
+greeting {
+    hello 'Hi'
+    person {
+        firstName = 'GD'
+        lastName = 'Huang'
+    }
+}
