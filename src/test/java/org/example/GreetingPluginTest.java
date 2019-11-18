@@ -3,6 +3,7 @@
  */
 package org.example;
 
+import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.gradle.api.Project;
 import org.junit.Test;
@@ -15,9 +16,10 @@ public class GreetingPluginTest {
     @Test public void pluginRegistersATask() {
         // Create a test project and apply the plugin
         Project project = ProjectBuilder.builder().build();
+        project.getPlugins().apply("java");
         project.getPlugins().apply("org.example.greeting");
 
         // Verify the result
-        assertNotNull(project.getTasks().findByName("greeting"));
+        assertNotNull(project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets().findByName("functionalTest"));
     }
 }
