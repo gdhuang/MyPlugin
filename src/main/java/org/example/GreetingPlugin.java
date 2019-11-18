@@ -3,14 +3,33 @@
  */
 package org.example;
 
+import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Plugin;
+import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.plugins.JavaPluginConvention;
 
 /**
  * A simple 'hello world' plugin.
  */
 public class GreetingPlugin implements Plugin<Project> {
     public void apply(Project project) {
+        configurePlugin(project);
+        addTask(project);
+    }
+
+    private void configurePlugin(Project project) {
+        //project.getPlugins().apply(JavaPlugin.class);
+        project.getPlugins().withType(JavaPlugin.class, new Action<JavaPlugin>() {
+            @Override
+            public void execute(JavaPlugin javaPlugin) {
+                JavaPluginConvention javaConvention = project.getConvention().getPlugin(JavaPluginConvention.class);
+                javaConvention.getSourceSets().create("functionalTest");
+            }
+        });
+    }
+
+    private void addTask(Project project) {
         // Register a task
         project.getTasks().register("greeting", task -> {
             task.doLast(s -> System.out.println("Hello from plugin 'org.example.greeting'"));
