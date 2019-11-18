@@ -1,0 +1,16 @@
+
+plugins {
+    id 'org.example.greeting'
+}
+
+greeting {
+    Borvo1 {
+        firstName = 'Jason'
+        lastName = 'Hayes'
+    }
+
+    Borvo2 {
+        firstName = 'Naima'
+        lastName = 'Perry'
+    }
+}

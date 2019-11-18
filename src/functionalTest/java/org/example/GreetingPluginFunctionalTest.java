@@ -18,25 +18,16 @@ import static org.junit.Assert.*;
  */
 public class GreetingPluginFunctionalTest {
     @Test public void canRunTask() throws IOException {
-        // Setup the test build
-        File projectDir = new File("build/functionalTest");
-        Files.createDirectories(projectDir.toPath());
-        writeString(new File(projectDir, "settings.gradle"), "");
-        writeString(new File(projectDir, "build.gradle"),
-            "plugins {" +
-            "  id('org.example.greeting')" +
-            "}");
-
         // Run the build
         GradleRunner runner = GradleRunner.create();
         runner.forwardOutput();
         runner.withPluginClasspath();
-        runner.withArguments("greeting");
-        runner.withProjectDir(projectDir);
+        runner.withArguments("greetingBorvo1");
+        runner.withProjectDir(new File("src/functionalTest/resources"));
         BuildResult result = runner.build();
 
         // Verify the result
-        assertTrue(result.getOutput().contains("Hello from plugin 'org.example.greeting'"));
+        assertTrue(result.getOutput().contains("Hello Jason Hayes"));
     }
 
     private void writeString(File file, String string) throws IOException {
