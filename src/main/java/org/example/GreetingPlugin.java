@@ -3,6 +3,8 @@
  */
 package org.example;
 
+import org.gradle.api.Action;
+import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 import org.gradle.api.Plugin;
 
@@ -11,6 +13,22 @@ import org.gradle.api.Plugin;
  */
 public class GreetingPlugin implements Plugin<Project> {
     public void apply(Project project) {
+        NamedDomainObjectContainer<Person> personContainer = project.container(Person.class);
+        project.getExtensions().add("greeting", personContainer);
+
+        // Register tasks
+        personContainer.all(new Action<Person>() {
+            public void execute(Person person) {
+                String name = person.getName();
+                String taskName = "greeting" + name;
+                project.getTasks().register(taskName, task -> {
+                    task.setGroup("Greeting");
+                    task.setDescription("greeting " + name);
+                    task.doLast(s -> System.out.println("Hello " + person.getFirstName() + " " + person.getlastName()));
+                });
+            }
+        });
+
         // Register a task
         project.getTasks().register("greeting", task -> {
             task.doLast(s -> System.out.println("Hello from plugin 'org.example.greeting'"));
