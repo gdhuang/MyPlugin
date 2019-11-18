@@ -1,0 +1,8 @@
+plugins {
+    id 'org.example.greeting'
+}
+
+task hello(type: org.example.GreetingTask) {
+    firstName 'GD'
+    lastName 'Huang'
+}
